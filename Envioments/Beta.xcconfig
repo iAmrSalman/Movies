@@ -1,0 +1,14 @@
+//
+//  Beta.xcconfig
+//  Movies
+//
+//  Created by Amr Salman on 23/04/2022.
+//
+
+IC_APP_DISPALY_NAME = Movies Beta
+IC_APP_ICON = AppIconBeta
+IC_APP_ID = com.iamrsalman.movies-beta
+IC_CORE_ID = com.iamrsalman.movies-beta.CoreKit
+IC_UIKIT_ID = com.iamrsalman.movies-beta.AppUIKit
+MOVIES_DB_API_URL = https:\/\/api.themoviedb.org/3/
+MOVIES_DB_APP_ID = 2e7c8fc8754509a5ee4d421b2a81367c

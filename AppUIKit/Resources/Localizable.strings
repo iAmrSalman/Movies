@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Penguin Pay
+
+  Created by Amr Salman on 23/04/2022.
+  
+*/
+
+// MARK: - Home
+
+"Movies App" = "Movies App";
+
+// MARK: - Errors

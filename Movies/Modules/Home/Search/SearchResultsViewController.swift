@@ -1,5 +1,5 @@
 //
-//  PopularMoviesViewController.swift
+//  SearchResultsViewController.swift
 //  Movies
 //
 //  Created by Amr Salman on 25/04/2022.
@@ -12,15 +12,15 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-public class PopularMoviesViewController: NiblessViewController {
+public class SearchResultsViewController: NiblessViewController {
 
     // MARK: - Properties
     
-    private let viewModel: PopularMoviesViewModel
-    private let customView: PopularMoviesView
+    private let viewModel: SearchResultsViewModel
+    private let customView: SearchResultsView
     
-    private lazy var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, MovieListPresentable>> = {
-        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<Int, MovieListPresentable>>(
+    private lazy var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<String, MovieListPresentable>> = {
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, MovieListPresentable>>(
             configureCell: { (_, tableView, indexPath, element) in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.movieCell, for: indexPath) else {
                     return UITableViewCell()
@@ -30,7 +30,7 @@ public class PopularMoviesViewController: NiblessViewController {
                 return cell
             },
             titleForHeaderInSection: { dataSource, sectionIndex in
-                return "\(dataSource[sectionIndex].model)"
+                return dataSource[sectionIndex].model
             }
         )
         return dataSource
@@ -40,7 +40,7 @@ public class PopularMoviesViewController: NiblessViewController {
     private let disposeBag = DisposeBag()
 
     // MARK: - Methods
-    init(view: PopularMoviesView, viewModel: PopularMoviesViewModel) {
+    init(view: SearchResultsView, viewModel: SearchResultsViewModel) {
         self.viewModel = viewModel
         self.customView = view
         super.init()
@@ -54,8 +54,13 @@ public class PopularMoviesViewController: NiblessViewController {
         super.viewDidLoad()
         observeErrorMessages()
         subscribe(to: viewModel.list)
+        customView.tableView.rx.willDisplayCell
+            .map { $0.indexPath.row }
+            .bind(to: viewModel.currentDisplayedItemSubject)
+            .disposed(by: disposeBag)
+        
         customView.tableView.rx.itemSelected
-            .compactMap { (self.customView.tableView.cellForRow(at: $0) as? MovieCell)?.movieId }
+            .map { $0.row }
             .bind(to: viewModel.selectItemSubject)
             .disposed(by: disposeBag)
     }
@@ -65,10 +70,9 @@ public class PopularMoviesViewController: NiblessViewController {
         
     }
     
-    private func subscribe(to observable: Observable<[Int: [MovieListPresentable]]>) {
+    private func subscribe(to observable: Observable<[MovieListPresentable]>) {
         observable
-            .compactMap { $0.map { SectionModel(model: $0.key, items: $0.value) } }
-            .compactMap { $0.sorted(by: { $0.model > $1.model })}
+            .map { [SectionModel(model: "Search results", items: $0)] }
             .bind(to: customView.tableView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
     }
@@ -84,5 +88,11 @@ public class PopularMoviesViewController: NiblessViewController {
                                    withPresentationState: strongSelf.viewModel.errorPresentation)
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension SearchResultsViewController: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        viewModel.searchTextSubject.onNext(searchController.searchBar.text)
     }
 }

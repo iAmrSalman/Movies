@@ -24,12 +24,16 @@ final class HomeViewController: NiblessNavigationController {
     private let disposeBag = DisposeBag()
     
     // Factories
+    private let makeMovieDetailsViewController: ((Int, ToggledWatchlistResponder?) -> MovieDetailsViewController)
     
     // MARK: - Methods
 
-    init(viewModel: HomeNavigationViewModel, rootViewController: HomeRootViewController) {
+    init(viewModel: HomeNavigationViewModel,
+         rootViewController: HomeRootViewController,
+         movieDetailsViewControllerFactory: @escaping ((Int, ToggledWatchlistResponder?) -> MovieDetailsViewController)) {
         self.viewModel = viewModel
         self.rootViewController = rootViewController
+        self.makeMovieDetailsViewController = movieDetailsViewControllerFactory
         super.init()
         self.delegate = self
         self.navigationBar.prefersLargeTitles = true
@@ -69,8 +73,8 @@ final class HomeViewController: NiblessNavigationController {
         switch view {
         case .root:
             presentRoot()
-        case .details(let id):
-            presentDetails(id: id)
+        case .details(let id, let responder):
+            presentDetails(id: id, responder: responder)
         }
     }
     
@@ -78,8 +82,8 @@ final class HomeViewController: NiblessNavigationController {
         popToRootViewController(animated: true)
     }
     
-    private func presentDetails(id: Int) {
-        
+    private func presentDetails(id: Int, responder: ToggledWatchlistResponder?) {
+        pushViewController(makeMovieDetailsViewController(id, responder), animated: true)
     }
 }
 
@@ -133,9 +137,9 @@ extension HomeViewController {
 
   func homeView(associatedWith viewController: UIViewController) -> HomeView? {
     switch viewController {
-    default:
-      assertionFailure("Encountered unexpected child view controller type in OnboardingViewController")
-      return nil
+    case is HomeRootViewController: return .root
+    case is MovieDetailsViewController: return .details(id: -1, responder: nil)
+    default: return nil
     }
   }
 }

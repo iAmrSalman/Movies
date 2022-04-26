@@ -27,11 +27,7 @@ extension RemoteAPI {
 
     public func request<T: Decodable>(_ request: RemoteService) -> Single<T> {
         return Single.create { single in
-            let dataRequest = session.request(request)
-                .responseString(completionHandler: { response in
-                    print(response)
-                })
-                .responseDecodable(of: T.self, decoder: decoder) { response in
+            let dataRequest = session.request(request).responseDecodable(of: T.self, decoder: decoder) { response in
                 switch response.result {
                 case .success(let resultObject):
                     single(.success(resultObject))

@@ -30,6 +30,7 @@ final public class DefaultSearchRepositoryImpel: SearchRepository {
             .asObservable()
             .flatMap { self.remoteAPI.searchMovie(auth: $0, query: query, page: page, language: nil, includeAdult: nil, region: nil, year: nil, primaryReleaseYear: nil) }
             .compactMap { $0.results }
+            .filter { !$0.isEmpty }
             .flatMap {
                 Observable.zip(
                     $0.compactMap { movie in

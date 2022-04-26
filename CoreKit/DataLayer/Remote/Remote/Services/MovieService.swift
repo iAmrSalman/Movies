@@ -28,6 +28,9 @@ extension MovieService: MoviesDBService {
             if let region = region {
                 parameters["region"] = region
             }
+            if let language = language {
+                parameters["language"] = language
+            }
             return RequestConfiguration(
                 method: .get,
                 path: mainRoute.appending("popular"),
@@ -36,27 +39,41 @@ extension MovieService: MoviesDBService {
                 language: language
             )
         case let .movie(auth, id, language):
+            var parameters: [String: Any] = ["api_key": auth]
+            if let language = language {
+                parameters["language"] = language
+            }
             return RequestConfiguration(
                 method: .get,
-                path: mainRoute.appending("\(id)/"),
-                parameters: ["api_key": auth],
+                path: mainRoute.appending("\(id)"),
+                parameters: parameters,
                 encoding: URLEncoding.default,
                 language: language
             )
         case let .similar(auth, id, page, language):
+            var parameters: [String: Any] = ["api_key": auth]
+            if let page = page {
+                parameters["page"] = page
+            }
+            if let language = language {
+                parameters["language"] = language
+            }
             return RequestConfiguration(
                 method: .get,
                 path: mainRoute.appending("\(id)/").appending("similar"),
-                // This warning should be avoided https://stevenpcurtis.medium.com/expression-implicitly-coerced-from-string-to-any-why-swift-why-190dd0a58c58
-                parameters: ["api_key": auth, "page": page].compactMapValues { $0 },
+                parameters: parameters,
                 encoding: URLEncoding.default,
                 language: language
             )
         case let .credits(auth, id, language):
+            var parameters: [String: Any] = ["api_key": auth]
+            if let language = language {
+                parameters["language"] = language
+            }
             return RequestConfiguration(
                 method: .get,
                 path: mainRoute.appending("\(id)/").appending("credits"),
-                parameters: ["api_key": auth],
+                parameters: parameters,
                 encoding: URLEncoding.default,
                 language: language
             )

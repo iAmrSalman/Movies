@@ -10,7 +10,7 @@ import RxSwift
 
 public typealias HomeNavigationAction = NavigationAction<HomeView>
 
-public class HomeNavigationViewModel {
+public class HomeNavigationViewModel: MovieDetailsNavigator {
 
     // MARK: - Properties
     
@@ -23,8 +23,15 @@ public class HomeNavigationViewModel {
         
     }
     
+    public func navigateToMovieDetails(with id: Int, responder: ToggledWatchlistResponder?) {
+        viewSubject.onNext(.present(view: .details(id: id, responder: responder)))
+    }
     
     public func uiPresented(view: HomeView) {
         viewSubject.onNext(.presented(view: view))
     }
+}
+
+public protocol MovieDetailsNavigator {
+    func navigateToMovieDetails(with id: Int, responder: ToggledWatchlistResponder?)
 }

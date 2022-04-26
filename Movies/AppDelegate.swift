@@ -10,13 +10,13 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    let injectionContainer = MoviesAppDependencyContainer()
+    let injectionContainer = HomeDependencyContainer()
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let mainVC = injectionContainer.makeMainViewController()
+        let mainVC = injectionContainer.makeHomeViewController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = mainVC

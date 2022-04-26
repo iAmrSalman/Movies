@@ -13,7 +13,7 @@ public protocol MoviesDBService: RemoteService {
 
 extension MoviesDBService {
     public var baseURL: String {
-        return (Bundle(for: MainViewModel.self)
+        return (Bundle(for: HomeNavigationViewModel.self)
             .infoDictionary?["Movies db api url"] as? String)?
             .replacingOccurrences(of: "\\", with: "") ?? ""
     }

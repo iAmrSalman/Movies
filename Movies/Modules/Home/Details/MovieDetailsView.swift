@@ -1,20 +1,22 @@
 //
-//  PopularMoviesView.swift
+//  MovieDetailsView.swift
 //  Movies
 //
-//  Created by Amr Salman on 25/04/2022.
+//  Created by Amr Salman on 26/04/2022.
 //
 
 import UIKit
 import SnapKit
 import AppUIKit
 
-class PopularMoviesView: NiblessView {
+class MovieDetailsView: NiblessView {
 
     // MARK: - Properties
 
     let tableView = UITableView().with {
-        $0.register(R.nib.movieCell)
+        $0.register(R.nib.movieDetailsCell)
+        $0.register(R.nib.horizontalMoviesListCell)
+        $0.register(R.nib.horizontalCastMembersListCell)
         $0.backgroundColor = .clear
         $0.backgroundView = nil
         $0.showsVerticalScrollIndicator = false
@@ -29,7 +31,7 @@ class PopularMoviesView: NiblessView {
         $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 10) + 10, right: 0)
         $0.tableFooterView = UIView()
     }
-    
+        
     // MARK: - Methods
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)

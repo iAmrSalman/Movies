@@ -9,9 +9,9 @@ import Foundation
 
 public struct Movie: Codable {
     let id: Int
-    let overview, title: String
-    let posterPath: String
-    let releaseDate: String
+    let overview, title: String?
+    let posterPath: String?
+    let releaseDate: String?
     let revenue: Double?
     let status, tagline: String?
 }

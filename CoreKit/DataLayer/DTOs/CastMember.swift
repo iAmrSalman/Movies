@@ -7,13 +7,14 @@
 
 import Foundation
 
-public struct CastMember: Codable {
-    let adult: Bool
-    let gender, id: Int
-    let knownForDepartment, name, originalName: String
-    let popularity: Double
-    let profilePath: String
-    let castId: Int
-    let character, creditId: String
-    let order: Int
+public struct CastMember: Codable, Hashable {
+    let adult: Bool?
+    let id: Int
+    let gender: Int?
+    let knownForDepartment, name, originalName: String?
+    let popularity: Double?
+    let profilePath: String?
+    let castId: Int?
+    let character, creditId: String?
+    let order: Int?
 }

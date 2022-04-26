@@ -13,13 +13,17 @@ class HomeRootView: NiblessView {
 
     // MARK: - Properties
 
-    let searchController = UISearchController().with {
+    lazy private(set) var searchController = UISearchController(searchResultsController: searchResultsController).with {
         $0.searchBar.placeholder = "Type name of the movie"
+        $0.searchResultsUpdater = searchResultsController as? UISearchResultsUpdating
     }
+    
+    private let searchResultsController: UIViewController?
         
     // MARK: - Methods
-    override init(frame: CGRect = .zero) {
-        super.init(frame: frame)
+    init(searchResultsController: UIViewController?) {
+        self.searchResultsController = searchResultsController
+        super.init(frame: .zero)
         constructHierarchy()
         activateConstraints()
         styleView()

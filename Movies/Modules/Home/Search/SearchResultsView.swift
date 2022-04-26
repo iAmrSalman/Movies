@@ -1,5 +1,5 @@
 //
-//  PopularMoviesView.swift
+//  SearchResultsView.swift
 //  Movies
 //
 //  Created by Amr Salman on 25/04/2022.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import AppUIKit
 
-class PopularMoviesView: NiblessView {
+class SearchResultsView: NiblessView {
 
     // MARK: - Properties
 

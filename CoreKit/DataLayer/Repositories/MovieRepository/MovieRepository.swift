@@ -10,7 +10,4 @@ import RxSwift
 
 public protocol MovieRepository {
     func getPopularMovies(page: Int) -> Single<[MovieWithWatchlist]>
-    func getMovieDetails(withId id: Int) -> Single<MovieWithWatchlist>
-    func getSimilarMovies(to id: Int, page: Int?) -> Single<[MovieWithWatchlist]>
-    func getCast(for id: Int) -> Single<[CastMember]>
 }

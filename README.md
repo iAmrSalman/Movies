@@ -7,7 +7,7 @@
 
 ## Requirements
 
-- iOS 15.0+
+- iOS 12.0+
 - Xcode 13.2.0+
 - Swift 5.6+
 
